@@ -2,10 +2,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import os
 
 np.random.seed(42)
 
+# Generate synthetic data
 months = pd.date_range(start="2024-01-01", end="2024-12-01", freq="MS")
 segments = ["Premium", "Standard", "Budget"]
 
@@ -21,9 +21,11 @@ for seg in segments:
 
 df = pd.DataFrame(data, columns=["Month", "Segment", "Revenue"])
 
+# Styling
 sns.set_style("whitegrid")
 sns.set_context("talk")
 
+# Create plot
 plt.figure(figsize=(8, 8))
 sns.lineplot(data=df, x="Month", y="Revenue", hue="Segment", marker="o", palette="deep")
 plt.title("Monthly Revenue Trends by Customer Segment", fontsize=16, weight="bold")
@@ -31,7 +33,6 @@ plt.xlabel("Month")
 plt.ylabel("Revenue ($)")
 plt.xticks(rotation=45)
 
-plt.savefig("chart.png", dpi=64, bbox_inches="tight")
+# ✅ Force exact 512x512 by removing bbox_inches
+plt.savefig("chart.png", dpi=64)
 plt.close()
-
-print("✅ Chart saved at:", os.path.abspath("chart.png"))
