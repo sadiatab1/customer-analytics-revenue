@@ -21,18 +21,22 @@ for seg in segments:
 
 df = pd.DataFrame(data, columns=["Month", "Segment", "Revenue"])
 
-# Styling
+# Seaborn styling
 sns.set_style("whitegrid")
 sns.set_context("talk")
 
-# Create plot
-plt.figure(figsize=(8, 8))
-sns.lineplot(data=df, x="Month", y="Revenue", hue="Segment", marker="o", palette="deep")
-plt.title("Monthly Revenue Trends by Customer Segment", fontsize=16, weight="bold")
-plt.xlabel("Month")
-plt.ylabel("Revenue ($)")
-plt.xticks(rotation=45)
+# Create figure **exactly 512x512 pixels**
+fig = plt.figure(figsize=(8, 8), dpi=64)  # 8*64=512
+ax = fig.add_subplot(111)
 
-# ✅ Force exact 512x512 by removing bbox_inches
-plt.savefig("chart.png", dpi=64)
+sns.lineplot(data=df, x="Month", y="Revenue", hue="Segment", marker="o", palette="deep", ax=ax)
+
+# Titles and labels
+ax.set_title("Monthly Revenue Trends by Customer Segment", fontsize=16, weight="bold")
+ax.set_xlabel("Month")
+ax.set_ylabel("Revenue ($)")
+plt.setp(ax.get_xticklabels(), rotation=45)  # rotate x-axis labels
+
+# Save exactly 512x512 **without bbox_inches**
+fig.savefig("chart.png", dpi=64)  # DO NOT use bbox_inches='tight'
 plt.close()
